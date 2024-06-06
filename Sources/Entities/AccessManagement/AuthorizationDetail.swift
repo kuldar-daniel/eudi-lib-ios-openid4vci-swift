@@ -24,7 +24,7 @@ public struct AuthorizationType: Codable {
 }
 
 public struct AuthorizationDetail: Codable {
-  public let type: AuthorizationType
+  public let type: String = "openid_credential"
   public let locations: [String]
   public let credentialConfigurationId: String
     public let format: String = "mso_mdoc"
@@ -38,11 +38,9 @@ public struct AuthorizationDetail: Codable {
     }
 
   public init(
-    type: AuthorizationType,
     locations: [String],
     credentialConfigurationId: String
   ) {
-    self.type = type
     self.locations = locations
     self.credentialConfigurationId = credentialConfigurationId
   }

@@ -320,7 +320,6 @@ public actor AuthorizationServerClient: AuthorizationServerClientType {
       }
       
       return AuthorizationDetail(
-        type: .init(type: OPENID_CREDENTIAL),
         locations: locations,
         credentialConfigurationId: id.value
       )
