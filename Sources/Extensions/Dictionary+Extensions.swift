@@ -45,6 +45,8 @@ public extension Dictionary where Key == String, Value == Any {
           return URLQueryItem(name: key, value: stringValue)
         }
         queryItems.append(contentsOf: arrayQueryItems)
+      } else if let dictValue = value as? [String: Any] {
+          queryItems.append(contentsOf: dictValue.toQueryItems())
       }
     }
     return queryItems
