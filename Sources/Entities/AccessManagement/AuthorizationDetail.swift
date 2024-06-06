@@ -27,7 +27,13 @@ public struct AuthorizationDetail: Codable {
   public let type: AuthorizationType
   public let locations: [String]
   public let credentialConfigurationId: String
-  
+
+    enum CodingKeys: String, CodingKey {
+        case type
+        case locations
+        case credentialConfigurationId = "credential_configuration_id"
+    }
+
   public init(
     type: AuthorizationType,
     locations: [String],
