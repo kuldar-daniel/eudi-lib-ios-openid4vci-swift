@@ -136,10 +136,6 @@ public actor AuthorizationServerClient: AuthorizationServerClientType {
     state: String,
     issuerState: String?
   ) async throws -> Result<(PKCEVerifier, GetAuthorizationCodeURL), Error> {
-    guard !scopes.isEmpty else {
-      throw ValidationError.error(reason: "No scopes provided. Cannot submit par with no scopes.")
-    }
-    
     let codeVerifier = PKCEGenerator.codeVerifier() ?? ""
     let verifier = try PKCEVerifier(
       codeVerifier: codeVerifier,
@@ -179,10 +175,6 @@ public actor AuthorizationServerClient: AuthorizationServerClientType {
     state: String,
     issuerState: String?
   ) async throws -> Result<(PKCEVerifier, GetAuthorizationCodeURL), Error> {
-    guard !scopes.isEmpty else {
-      throw ValidationError.error(reason: "No scopes provided. Cannot submit par with no scopes.")
-    }
-    
     let codeVerifier = PKCEGenerator.codeVerifier() ?? ""
     let authzRequest = AuthorizationRequest(
       responseType: Self.responseType,
