@@ -185,6 +185,7 @@ public actor AuthorizationServerClient: AuthorizationServerClientType {
       state: state,
       codeChallenge: PKCEGenerator.generateCodeChallenge(codeVerifier: codeVerifier),
       codeChallengeMethod: CodeChallenge.sha256.rawValue,
+      authorizationDetails: toAuthorizationDetail(credentialConfigurationIds: credentialConfigurationIdentifiers),
       issuerState: issuerState
     )
     

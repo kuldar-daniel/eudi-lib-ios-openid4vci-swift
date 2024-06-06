@@ -25,7 +25,7 @@ public struct AuthorizationRequest: Codable {
   public let responseMode: String?
   public let codeChallenge: String?
   public let codeChallengeMethod: String?
-  public let authorizationDetails: String?
+  public let authorizationDetails: [AuthorizationDetail]?
   public let resource: String?
   public let includeGrantedScopes: String?
   public let requestUri: String?
@@ -68,7 +68,7 @@ public struct AuthorizationRequest: Codable {
     responseMode: String? = nil,
     codeChallenge: String? = nil,
     codeChallengeMethod: String? = nil,
-    authorizationDetails: String? = nil,
+    authorizationDetails: [AuthorizationDetail]? = nil,
     resource: String? = nil,
     includeGrantedScopes: String? = nil,
     requestUri: String? = nil,
