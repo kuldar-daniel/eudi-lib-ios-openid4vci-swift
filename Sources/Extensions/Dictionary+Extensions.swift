@@ -46,7 +46,11 @@ public extension Dictionary where Key == String, Value == Any {
         }
         queryItems.append(contentsOf: arrayQueryItems)
       } else if let dictValue = value as? [String: Any] {
-          queryItems.append(contentsOf: dictValue.toQueryItems())
+          if let jsonData = try? JSONSerialization.data(withJSONObject: dictValue, options: []) {
+              let jsonValue = String(data: jsonData, encoding: .utf8)
+
+              queryItems.append(URLQueryItem(name: key, value: jsonValue))
+          }
       }
     }
     return queryItems
