@@ -48,7 +48,7 @@ public extension Dictionary where Key == String, Value == Any {
                     do {
                         let jsonValue = String(data: jsonData, encoding: .utf8)
 
-                        let encoded = try jsonValue?.utf8UrlEncoded()
+                        let encoded = jsonValue?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
 
                         return URLQueryItem(name: key, value: encoded)
                     } catch {
