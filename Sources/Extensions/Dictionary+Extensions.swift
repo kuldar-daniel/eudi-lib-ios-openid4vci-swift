@@ -41,16 +41,21 @@ public extension Dictionary where Key == String, Value == Any {
         queryItems.append(URLQueryItem(name: key, value: numberValue.stringValue))
       } else if let arrayValue = value as? [Any] {
         let arrayQueryItems = arrayValue.compactMap { (item) -> URLQueryItem? in
-          guard let stringValue = item as? String else { return nil }
-          return URLQueryItem(name: key, value: stringValue)
+            if let stringValue = item as? String {
+                return URLQueryItem(name: key, value: stringValue)
+            } else if let dictValue = item as? [String: Any] {
+                if let jsonData = try? JSONSerialization.data(withJSONObject: dictValue, options: []) {
+                    let jsonValue = String(data: jsonData, encoding: .utf8)
+
+                    return URLQueryItem(name: key, value: jsonValue)
+                } else {
+                    return nil
+                }
+            } else {
+                return nil
+            }
         }
         queryItems.append(contentsOf: arrayQueryItems)
-      } else if let dictValue = value as? [String: Any] {
-          if let jsonData = try? JSONSerialization.data(withJSONObject: dictValue, options: []) {
-              let jsonValue = String(data: jsonData, encoding: .utf8)
-
-              queryItems.append(URLQueryItem(name: key, value: jsonValue))
-          }
       }
     }
     return queryItems
