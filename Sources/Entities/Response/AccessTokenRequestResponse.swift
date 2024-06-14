@@ -23,7 +23,7 @@ public enum AccessTokenRequestResponse: Codable {
     tokenType: String?,
     accessToken: String,
     refreshToken: String?,
-    expiresIn: Int,
+    expiresIn: Int?,
     scope: String?,
     cNonce: String?,
     cNonceExpiresIn: Int?,
@@ -50,9 +50,8 @@ public enum AccessTokenRequestResponse: Codable {
   public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     
-    if let accessToken = try? container.decode(String.self, forKey: .accessToken),
-       let expiresIn = try? container.decode(Int.self, forKey: .expiresIn) {
-      
+    if let accessToken = try? container.decode(String.self, forKey: .accessToken) {
+        let expiresIn = try? container.decode(Int.self, forKey: .expiresIn) 
       let tokenType = try? container.decode(String.self, forKey: .tokenType)
       let refeshToken = try? container.decode(String.self, forKey: .refreshToken)
       var authorizationDetails: AuthorizationDetailsIdentifiers = [:]
