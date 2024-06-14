@@ -44,7 +44,13 @@ public extension Dictionary where Key == String, Value == Any {
             if let stringValue = item as? String {
                 return URLQueryItem(name: key, value: stringValue)
             } else if let dictValue = item as? [String: Any] {
-                return URLQueryItem(name: key, value: "\(dictValue)".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed))
+                guard
+                    let data = try? JSONSerialization.data(withJSONObject: dictValue)
+                else { return nil }
+
+                let string = String(data: data, encoding: .utf8)?.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
+
+                return URLQueryItem(name: key, value: string)
             } else {
                 return nil
             }
