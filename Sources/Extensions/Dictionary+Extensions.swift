@@ -44,7 +44,7 @@ public extension Dictionary where Key == String, Value == Any {
             if let stringValue = item as? String {
                 return URLQueryItem(name: key, value: stringValue)
             } else if let dictValue = item as? [String: Any] {
-                return URLQueryItem(name: key, value: dictValue.toJSONString())
+                return URLQueryItem(name: key, value: dictValue.toQueryString())
             } else {
                 return nil
             }
@@ -140,4 +140,32 @@ public extension Dictionary where Key == String, Value == Any {
     let dictionaryKeySet = Set(self.keys)
     return keySet.isSubset(of: dictionaryKeySet)
   }
+}
+
+extension Dictionary where Key == String, Value == Any {
+    /// Method allows you convert [String: Any] object into query string like "key1=value1&key3=true&key2=2.15"
+    public func toQueryString() -> String? {
+        let items = queryItems()
+        let components = URLComponents(queryItems: items)
+        return components.query
+    }
+
+    // MARK: - Private Methods
+
+    /// Support methods to convert elements of dictionary into URLQueryItem array
+    private func queryItems() -> [URLQueryItem] {
+        return self.map { (element) -> URLQueryItem in
+            let (key, value) = element
+            let string = "\(value)"
+            return URLQueryItem(name: key, value: string.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) )
+        }
+    }
+}
+
+private extension URLComponents {
+    /// Support init for toQueryString() method
+    init(queryItems: [URLQueryItem]) {
+        self.init()
+        self.queryItems = queryItems
+    }
 }
