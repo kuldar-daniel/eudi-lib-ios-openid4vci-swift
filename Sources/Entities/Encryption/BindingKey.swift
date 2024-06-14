@@ -71,7 +71,8 @@ public extension BindingKey {
           JWTClaimNames.issuedAt: Int(Date().timeIntervalSince1970.rounded()),
           JWTClaimNames.audience: aud,
           JWTClaimNames.nonce: cNonce ?? "",
-          JWTClaimNames.issuer: issuer ?? ""
+          JWTClaimNames.issuer: issuer ?? "",
+          JWTClaimNames.subject: "org.iso.18013.5.1.mDL"
         ]
         
         let payload = Payload(try dictionary.toThrowingJSONData())
